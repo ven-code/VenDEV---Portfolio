@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Steven Clarke | Portfolio</title>
+
+    <link rel="stylesheet" href="all.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+      /* Reset & General Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: rgba(59, 130, 246, 0.05);
+        color: #222;
+        overflow-x: hidden;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 50px;
+        background: #1e40af;
+        position: sticky;
+        top: 0;
+        height: 70px;
+        z-index: 1000;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        font-size: 20px;
+        color: #fff;
+        gap: 8px;
+      }
+
+      .logo-box {
+        background: #fff;
+        color: #1e40af;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #fff;
+        transition: 0.3s;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #e0e7ff;
+      }
+
+      /* Hamburger Menu */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 5px;
+        z-index: 1100;
+        transition: 0.3s ease;
+      }
+
+      .hamburger span {
+        width: 28px;
+        height: 3px;
+        background: #fff;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      /* Mobile Menu Overlay */
+      .mobile-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+        z-index: 999;
+        transition: opacity 0.3s ease;
+      }
+
+      .mobile-overlay.active {
+        display: block;
+        opacity: 1;
+      }
+
+      /* Mobile Menu */
+      @media (max-width: 768px) {
+        .hamburger {
+          display: flex;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          background: #1e3a8a;
+          flex-direction: column;
+          width: 70%;
+          height: 100vh;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 30px;
+          transition: right 0.3s ease-in-out;
+          z-index: 1000;
+          padding: 100px 20px 20px 20px;
+          box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-links.show {
+          right: 0;
+        }
+
+        .nav-links a {
+          font-size: 22px;
+          font-weight: 600;
+          color: #fff;
+        }
+
+        /* Close Button */
+        .close-menu {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: none;
+          border: none;
+          color: #fff;
+          font-size: 30px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        .close-menu:hover {
+          color: #e0e7ff;
+        }
+      }
+
+      /* Section Layout */
+      /* Use normal document flow instead of absolute positioning so sections stack
+         naturally and the page doesn't create an unwanted scrolling/offset effect. */
+      section {
+        position: relative;
+        width: 100%;
+        min-height: calc(100vh - 70px);
+        display: none; /* hide inactive sections */
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding-top: 0;
+      }
+
+      section.active {
+        display: flex; /* show the active section */
+      }
+
+      /* Hero Section */
+      .hero {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        height: calc(100vh - 70px);
+        padding: 0 50px;
+        flex-wrap: wrap;
+        background: linear-gradient(180deg, #f7f9ff 0%, #eef3ff 100%);
+      }
+
+      .hero-content {
+        max-width: 500px;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .tag {
+        background: #e0e7ff;
+        color: #3b82f6;
+        padding: 8px 15px;
+        border-radius: 25px;
+        font-size: 14px;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+
+      .hero-content h1 {
+        font-size: 40px;
+        margin: 20px 0;
+        line-height: 1.2;
+      }
+
+      .hero-content h1 span {
+        color: #3b82f6;
+      }
+
+      .hero-content p {
+        color: #555;
+        margin-bottom: 20px;
+        font-size: 15px;
+      }
+
+      .buttons-socials {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .hero-content .socials {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+
+      .btn.primary {
+        background: #1e40af;
+        color: #fff;
+      }
+
+      .btn.primary:hover {
+        background: #1d4ed8;
+      }
+
+      .hero-image img {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        border: 6px solid #3b82f6;
+        object-fit: cover;
+      }
+
+      .socials a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        color: #3b82f6;
+        font-size: 20px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .socials a:hover {
+        background: #3b82f6;
+        color: #fff;
+        transform: scale(1.1);
+      }
+
+      /* About Section */
+      #about {
+        background: #f8faff;
+        padding: 100px 50px;
+        min-height: calc(100vh - 70px);
+        justify-content: flex-start;
+        align-items: center;
+      }
+
+      .about-header {
+        text-align: center;
+        margin-bottom: 60px;
+        width: 100%;
+      }
+
+      .about-header h2 {
+        font-size: 36px;
+        font-weight: 700;
+        color: #1e40af;
+      }
+
+      .about-header h2 span {
+        color: #000;
+      }
+
+      .about-header p {
+        margin-top: 10px;
+        color: #555;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        max-width: 1100px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .about-card {
+        background: #fff;
+        padding: 25px 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+      }
+
+      .about-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .about-card h3,
+      .about-card h4 {
+        color: #1e40af;
+        margin-bottom: 15px;
+      }
+
+      .about-card p {
+        color: #444;
+        line-height: 1.7;
+        margin-bottom: 15px;
+      }
+
+      .about-card ul {
+        list-style: none;
+      }
+
+      .about-card ul li {
+        margin: 10px 0;
+        color: #333;
+      }
+
+      .skills li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .skills i {
+        color: #3b82f6;
+        font-size: 18px;
+      }
+
+      /* Responsive Layout */
+      @media (max-width: 1024px) {
+        .hero {
+          flex-direction: column-reverse;
+          text-align: center;
+          padding: 60px 20px;
+          height: auto;
+        }
+
+        .hero-content {
+          max-width: 100%;
+          text-align: center;
+        }
+
+        .hero-content h1 {
+          font-size: 34px;
+        }
+
+        .hero-image img {
+          width: 280px;
+          height: 280px;
+          margin-bottom: 20px;
+        }
+
+        .about-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .about-header h2 {
+          font-size: 30px;
+        }
+
+        #about {
+          padding: 60px 20px;
+        }
+
+        .buttons-socials {
+          justify-content: center;
+          align-items: center;
+        }
+
+        .hero-content .socials {
+          flex-direction: row;
+        }
+      }
+
+      /* Milestones, CTA and Footer (placed inside About section) */
+      .milestones-wrapper {
+        max-width: 1100px;
+        margin: 40px auto 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+      }
+
+      .milestones-card,
+      .milestones-side-card {
+        background: #fff;
+        padding: 25px 28px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(2, 6, 23, 0.06);
+      }
+
+      .milestones-card h3 {
+        font-size: 20px;
+        color: #0f172a;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .timeline {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .timeline li {
+        padding: 18px 0;
+        border-bottom: 1px solid #eef2f7;
+      }
+
+      .timeline li:last-child {
+        border-bottom: none;
+      }
+
+      .timeline strong {
+        display: block;
+        color: #0b1b4a;
+        margin-bottom: 6px;
+      }
+
+      .timeline .meta {
+        color: #3b82f6;
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .timeline p {
+        color: #475569;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .milestones-side-card h4 {
+        margin-bottom: 12px;
+        color: #0f172a;
+      }
+
+      .hobbies {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .hobbies li {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 8px 0;
+        color: #374151;
+      }
+
+      .hobby-icon {
+        width: 50px;
+        height: 50px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #eff6ff;
+        color: #3b82f6;
+        border-radius: 12px;
+        margin-right: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .hobby-icon i {
+        font-size: 24px;
+      }
+
+      .hobbies li:hover .hobby-icon {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(59, 130, 246, 0.15);
+        background: #3b82f6;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+        padding: 10px 18px;
+        border-radius: 10px;
+      }
+
+      .site-footer {
+        background: #071024;
+        color: #cbd5e1;
+        padding: 40px 20px;
+        margin-top: 40px;
+      }
+
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .footer-inner h4 {
+        color: #fff;
+        margin-bottom: 12px;
+      }
+
+      .footer-links a {
+        display: block;
+        color: #94a3b8;
+        margin: 8px 0;
+        text-decoration: none;
+      }
+
+      .footer-contact li {
+        margin: 8px 0;
+        color: #94a3b8;
+        list-style: none;
+      }
+
+      /* Skills Section */
+      #skills {
+        background: #fff;
+        padding: 100px 50px;
+      }
+
+      .skills-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .skills-header h2 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        /* Match About section's heading: blue main text */
+        color: #1e40af;
+      }
+
+      .skills-header h2 span {
+        /* Make the span black like the About section span */
+        color: #000;
+      }
+
+      /* Subtitle for sections within the Skills area (plain black H3) */
+      .section-subtitle {
+        color: #000;
+        font-size: 28px;
+        font-weight: 700;
+        text-align: center;
+        margin: 30px 0 20px;
+      }
+
+      .skills-header p {
+        color: #555;
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 15px;
+      }
+
+      .skills-tag {
+        display: inline-block;
+        padding: 6px 16px;
+        background: #eff6ff;
+        color: #3b82f6;
+        border-radius: 20px;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .technical-skills {
+        max-width: 1100px;
+        margin: 0 auto 60px auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+      }
+
+      .skill-category {
+        background: #fff;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .skill-category h3 {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #1e293b;
+        font-size: 20px;
+        margin-bottom: 25px;
+      }
+
+      .skill-category h3 i {
+        color: #3b82f6;
+      }
+
+      .skill-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .skill-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .skill-name {
+        color: #334155;
+        font-weight: 500;
+      }
+
+      .skill-bar {
+        flex: 1;
+        height: 8px;
+        background: #e2e8f0;
+        margin: 0 15px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .skill-progress {
+        height: 100%;
+        border-radius: 4px;
+        transition: width 1s ease;
+      }
+
+      .skill-percentage {
+        color: #64748b;
+        font-size: 14px;
+        min-width: 45px;
+        text-align: right;
+      }
+
+      /* Programming Languages */
+      .javascript .skill-progress {
+        background: #f7df1e;
+        width: 85%;
+      }
+      .python .skill-progress {
+        background: #3776ab;
+        width: 80%;
+      }
+      .java .skill-progress {
+        background: #f89820;
+        width: 75%;
+      }
+      .cpp .skill-progress {
+        background: #00599c;
+        width: 70%;
+      }
+      .php .skill-progress {
+        background: #777bb3;
+        width: 65%;
+      }
+
+      /* Web Technologies */
+      .html-css .skill-progress {
+        background: #e34f26;
+        width: 90%;
+      }
+      .react .skill-progress {
+        background: #61dafb;
+        width: 80%;
+      }
+      .nodejs .skill-progress {
+        background: #339933;
+        width: 75%;
+      }
+      .bootstrap .skill-progress {
+        background: #7952b3;
+        width: 85%;
+      }
+      .tailwind .skill-progress {
+        background: #38bdf8;
+        width: 80%;
+      }
+
+      /* Database & Tools */
+      .mysql .skill-progress {
+        background: #4479a1;
+        width: 80%;
+      }
+      .mongodb .skill-progress {
+        background: #47a248;
+        width: 70%;
+      }
+      .git .skill-progress {
+        background: #f05032;
+        width: 85%;
+      }
+      .vscode .skill-progress {
+        background: #007acc;
+        width: 90%;
+      }
+      .figma .skill-progress {
+        background: #f24e1e;
+        width: 75%;
+      }
+
+      /* Soft Skills */
+      .soft-skills {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .soft-skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+      }
+
+      .soft-skill-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .soft-skill-icon {
+        width: 50px;
+        height: 50px;
+        background: #eff6ff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .soft-skill-icon i {
+        color: #3b82f6;
+        font-size: 24px;
+      }
+
+      .soft-skill-card h3 {
+        color: #1e293b;
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .soft-skill-card p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .technical-skills {
+          grid-template-columns: 1fr;
+        }
+
+        .soft-skills-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .skill-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .skill-bar {
+          margin: 8px 0;
+          width: 100%;
+        }
+
+        .skill-percentage {
+          text-align: left;
+        }
+      }
+
+      /* Footer social icons style */
+      .footer-socials a {
+        color: #94a3b8;
+        font-size: 18px;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-socials a:hover {
+        color: #cbd5e1;
+        transform: none;
+        background: none;
+      }
+
+      @media (max-width: 1024px) {
+        .milestones-wrapper {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .hero-content h1 {
+          font-size: 26px;
+        }
+
+        .about-header h2 {
+          font-size: 24px;
+        }
+
+        .hero-content p {
+          font-size: 15px;
+        }
+
+        .btn {
+          padding: 10px 18px;
+          font-size: 14px;
+        }
+      }
+
+      /* Projects Section */
+      #projects {
+        background: #f8faff;
+        padding: 100px 50px;
+      }
+
+      .projects-header {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 60px;
+      }
+
+      .projects-header h2 {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #000;
+      }
+
+      .projects-header h2 span {
+        color: #3b82f6;
+      }
+
+      .projects-header p {
+        color: #555;
+        font-size: 15px;
+      }
+
+      /* Contact Section */
+      #contact {
+        background: #fff;
+        padding: 80px 50px;
+      }
+
+      .contact-top-cards {
+        max-width: 1200px;
+        margin: 0 auto 30px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+
+      .contact-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 22px;
+        box-shadow: 0 6px 20px rgba(2, 6, 23, 0.04);
+        text-align: center;
+      }
+
+      .contact-card .icon {
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 12px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #e6f0ff 0%, #eff6ff 100%);
+        color: #1e40af;
+        font-size: 20px;
+      }
+
+      .contact-card h4 {
+        margin-bottom: 6px;
+        color: #0f172a;
+      }
+
+      .contact-layout {
+        max-width: 1200px;
+        margin: 40px auto 0;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+        align-items: start;
+      }
+
+      .contact-form-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 26px;
+        box-shadow: 0 8px 30px rgba(30, 64, 175, 0.04);
+      }
+
+      .contact-form-card label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: #334155;
+      }
+
+      .contact-form-card input,
+      .contact-form-card textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #e6edf3;
+        margin-bottom: 14px;
+        font-size: 14px;
+      }
+
+      .contact-form-card textarea {
+        min-height: 140px;
+        resize: vertical;
+      }
+
+      .contact-side .info-box {
+        background: #fff;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 8px 30px rgba(30, 64, 175, 0.04);
+        margin-bottom: 18px;
+      }
+
+      .contact-side .info-box h4 {
+        margin-bottom: 12px;
+        font-size: 18px;
+      }
+
+      .contact-side .socials a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #f1f8ff;
+        color: #1e40af;
+        margin-right: 8px;
+        text-decoration: none;
+      }
+
+      .contact-cta {
+        background: linear-gradient(180deg, #1e40af, #3b82f6);
+        color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      @media (max-width: 1024px) {
+        .contact-top-cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .contact-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .contact-top-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .projects-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        padding: 20px 0;
+      }
+
+      .project-card {
+        background: #fff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .project-image {
+        width: 100%;
+        height: 220px;
+        position: relative;
+      }
+
+      .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .project-badge {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .badge-completed {
+        background: #dcfce7;
+        color: #16a34a;
+      }
+
+      .badge-in-progress {
+        background: #fff7ed;
+        color: #ea580c;
+      }
+
+      .project-category {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        background: #fff;
+        color: #3b82f6;
+      }
+
+      .project-content {
+        padding: 25px;
+      }
+
+      .project-content h3 {
+        font-size: 20px;
+        color: #0f172a;
+        margin-bottom: 10px;
+      }
+
+      .project-content p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        #projects {
+          padding: 60px 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay"></div>
+
+    <!-- Navbar -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <span class="logo-box">SC</span>
+          Steven Clarke
+        </div>
+
+        <ul class="nav-links">
+          <li><a data-section="home">Home</a></li>
+          <li><a data-section="about">About</a></li>
+          <li><a data-section="skills">Skills</a></li>
+          <li><a data-section="projects">Projects</a></li>
+          <li><a data-section="contact">Contact</a></li>
+          <button class="close-menu" style="display: none">&times;</button>
+        </ul>
+
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="hero active">
+      <div class="hero-content">
+        <span class="tag">🎓 3rd Year BSIT Student</span>
+        <h1>
+          Hi, I'm
+          <span>Steven Clarke</span>
+        </h1>
+        <p>
+          Passionate BSIT student and Documentation Committee Chairperson, dedicated to building innovative solutions
+          and leading technical documentation initiatives.
+        </p>
+        <div class="buttons-socials">
+          <a data-section="about" class="btn primary">Learn More</a>
+          <div class="socials">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="steven 1x1.jpg" alt="Profile" />
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="about-header">
+        <h2>
+          About
+          <span>Me</span>
+        </h2>
+        <p>Passionate BSIT Student dedicated to learning and leading in technology and documentation.</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>
+            <i class="fas fa-user-graduate"></i>
+            My Academic Journey
+          </h3>
+          <p>
+            Currently in my 3rd year pursuing a Bachelor of Science in Information Technology, I've discovered my
+            passion for both technology and leadership.
+          </p>
+          <p>
+            Recently appointed as the Chairperson of the Documentation Committee, I oversee documentation processes and
+            lead a team of students.
+          </p>
+          <p>
+            Through my studies and leadership role, I've developed strong skills in technical writing, project
+            management, and team collaboration.
+          </p>
+        </div>
+
+        <div class="about-side">
+          <div class="about-card">
+            <h4>Academic Stats</h4>
+            <ul>
+              <li>
+                <strong>Current Year:</strong>
+                <span>3rd Year</span>
+              </li>
+              <li>
+                <strong>Major:</strong>
+                <span>BSIT</span>
+              </li>
+              <li>
+                <strong>Leadership Role:</strong>
+                <span>Chairperson</span>
+              </li> 
+            </ul>
+          </div>
+          <br />
+          <div class="about-card">
+            <h4>Core Skills</h4>
+            <ul class="skills">
+              <li>
+                <i class="fas fa-code"></i>
+                Programming
+              </li>
+              <li>
+                <i class="fas fa-file-alt"></i>
+                Technical Documentation
+              </li>
+              <li>
+                <i class="fas fa-users"></i>
+                Team Leadership
+              </li>
+              <li>
+                <i class="fas fa-database"></i>
+                Database Management
+              </li>
+              <li>
+                <i class="fas fa-globe"></i>
+                Web Development
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Milestones / Interests (inside About) -->
+      <div class="milestones-wrapper">
+        <div class="milestones-card">
+          <h3>
+            <i class="far fa-clock"></i>
+            Academic Milestones
+          </h3>
+          <ul class="timeline">
+            <li>
+              <strong>Chairperson - Documentation Committee</strong>
+              <div class="meta">Present</div>
+              <p>Leading documentation standards, managing team workflows, and ensuring quality control.</p>
+            </li>
+            <li>
+              <strong>3rd Year BSIT Student</strong>
+              <div class="meta">2023 - Present</div>
+              <p>Focusing on advanced programming, database management, and system analysis.</p>
+            </li>
+            <li>
+              <strong>BSIT Foundation Years</strong>
+              <div class="meta">2023 - Present</div>
+              <p>Built strong foundation in programming, web development, and IT fundamentals.</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="milestones-side">
+          <div class="milestones-side-card">
+            <h4>Interests & Hobbies</h4>
+            <ul class="hobbies">
+              <li>
+                <span class="hobby-icon">
+                  <i class="fas fa-laptop-code"></i>
+                </span>
+                Learning New Technologies
+              </li>
+              <li>
+                <span class="hobby-icon">
+                  <i class="fas fa-gamepad"></i>
+                </span>
+                Gaming
+              </li>
+              <li>
+                <span class="hobby-icon">
+                  <i class="fas fa-music"></i>
+                </span>
+                Music
+              </li>
+              <li>
+                <span class="hobby-icon">
+                  <i class="fas fa-users"></i>
+                </span>
+                Student Organizations
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="skills-header">
+        <h2>
+          My
+          <span>Skills</span>
+        </h2>
+        <p>
+          A comprehensive overview of my technical abilities and soft skills developed through academic projects and
+          leadership experience.
+        </p>
+      </div>
+
+      <h3 class="section-subtitle">Technical Skills</h3>
+
+      <div class="technical-skills">
+        <!-- Programming Languages -->
+        <div class="skill-category">
+          <h3>
+            <i class="fas fa-code"></i>
+            Programming Languages
+          </h3>
+          <div class="skill-list">
+            <div class="skill-item javascript">
+              <span class="skill-name">JavaScript</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">85%</span>
+            </div>
+            <div class="skill-item python">
+              <span class="skill-name">Python</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">80%</span>
+            </div>
+            <div class="skill-item java">
+              <span class="skill-name">Java</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">75%</span>
+            </div>
+            <div class="skill-item cpp">
+              <span class="skill-name">C++</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">70%</span>
+            </div>
+            <div class="skill-item php">
+              <span class="skill-name">PHP</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">65%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Web Technologies -->
+        <div class="skill-category">
+          <h3>
+            <i class="fas fa-globe"></i>
+            Web Technologies
+          </h3>
+          <div class="skill-list">
+            <div class="skill-item html-css">
+              <span class="skill-name">HTML/CSS</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">90%</span>
+            </div>
+            <div class="skill-item react">
+              <span class="skill-name">React</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">80%</span>
+            </div>
+            <div class="skill-item nodejs">
+              <span class="skill-name">Node.js</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">75%</span>
+            </div>
+            <div class="skill-item bootstrap">
+              <span class="skill-name">Bootstrap</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">85%</span>
+            </div>
+            <div class="skill-item tailwind">
+              <span class="skill-name">Tailwind CSS</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">80%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Database & Tools -->
+        <div class="skill-category">
+          <h3>
+            <i class="fas fa-database"></i>
+            Database & Tools
+          </h3>
+          <div class="skill-list">
+            <div class="skill-item mysql">
+              <span class="skill-name">MySQL</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">80%</span>
+            </div>
+            <div class="skill-item mongodb">
+              <span class="skill-name">MongoDB</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">70%</span>
+            </div>
+            <div class="skill-item git">
+              <span class="skill-name">Git/GitHub</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">85%</span>
+            </div>
+            <div class="skill-item vscode">
+              <span class="skill-name">VS Code</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">90%</span>
+            </div>
+            <div class="skill-item figma">
+              <span class="skill-name">Figma</span>
+              <div class="skill-bar"><div class="skill-progress"></div></div>
+              <span class="skill-percentage">75%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soft Skills -->
+      <div class="soft-skills">
+        <h3 class="section-subtitle">Soft Skills</h3>
+        <div class="skills-header">
+          <p>Personal qualities and interpersonal skills that drive my success</p>
+        </div>
+
+        <div class="soft-skills-grid">
+          <div class="soft-skill-card">
+            <div class="soft-skill-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Leadership</h3>
+            <p>Leading documentation committee and project teams</p>
+          </div>
+
+          <div class="soft-skill-card">
+            <div class="soft-skill-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3>Communication</h3>
+            <p>Effective technical writing and presentation skills</p>
+          </div>
+
+          <div class="soft-skill-card">
+            <div class="soft-skill-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3>Problem Solving</h3>
+            <p>Analytical thinking and creative solutions</p>
+          </div>
+
+          <div class="soft-skill-card">
+            <div class="soft-skill-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3>Time Management</h3>
+            <p>Balancing academics and leadership responsibilities</p>
+          </div>
+
+          <div class="soft-skill-card">
+            <div class="soft-skill-icon">
+              <i class="fas fa-file-alt"></i>
+            </div>
+            <h3>Documentation</h3>
+            <p>Creating clear and comprehensive technical docs</p>
+          </div>
+
+          <div class="soft-skill-card">
+            <div class="soft-skill-icon">
+              <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Teamwork</h3>
+            <p>Collaborative approach to project development</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <div class="projects-header">
+        <h2>
+          Featured
+          <span>Projects</span>
+        </h2>
+        <p>
+          A collection of academic and personal projects showcasing my technical skills and problem-solving abilities.
+        </p>
+      </div>
+
+      <div class="projects-grid">
+        <!-- Logbook Management System -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="LClogbook.png" alt="Logbook Management System" />
+            <span class="project-badge badge-completed">Completed</span>
+            <span class="project-category">Logbook System</span>
+          </div>
+          <div class="project-content">
+            <h3>Lemery Colleges Computerized Logbook System</h3>
+            <p>
+              Is a digital platform designed to streamline the recording, monitoring, and management of student
+              activities and accomplishments, particularly for students undergoing internships or on-the-job training.
+              Unlike traditional manual logbooks, this system allows students to input their daily tasks, projects, and
+              hours electronically, providing real-time tracking for both students and their supervisors. It enhances
+              accuracy, reduces paperwork, and ensures that all records are securely stored and easily accessible.
+            </p>
+          </div>
+        </div>
+
+        <!-- Documentation Portal -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="CEEJ.png" alt="Ordering System" />
+            <span class="project-badge badge-in-progress">Completed</span>
+            <span class="project-category">Web Application</span>
+          </div>
+          <div class="project-content">
+            <h3>Ceej & Joes Brew Cafe Ordering and Pick-Up System</h3>
+            <p>
+              Is a front-end web application that showcases the café’s unique menu and inviting atmosphere, reflecting
+              the collaboration between two local businesses in Subic Ibaba, Agoncillo, Batangas. It allows customers to
+              explore a variety of beverages and food items through an interactive interface with images, descriptions,
+              and prices. Users can add items to a virtual cart, simulate checkout, and receive a digital receipt along
+              with a notification indicating when their order is ready for pick-up.
+            </p>
+          </div>
+        </div>
+
+        <!-- Task Management App -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="LGUagonms.png" alt="Monitoring System" />
+            <span class="project-badge badge-completed">In Progress</span>
+            <span class="project-category">Monitoring System</span>
+          </div>
+          <div class="project-content">
+            <h3>Evacuee Availabilty and Relief Goods Monitoring System for Municipality of Agoncillo, Batangas</h3>
+            <p>
+              Is a digital platform designed to efficiently manage and track evacuees and the distribution of relief
+              goods during emergencies. The system allows local authorities to record the number of evacuees in
+              evacuation centers, monitor their basic needs, and manage the inventory of relief goods in real time. By
+              centralizing this information, the system improves coordination between disaster response teams and
+              ensures that resources are allocated quickly and accurately to those in need.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="contact-top-cards">
+        <div class="contact-card">
+          <div class="icon">✉️</div>
+          <h4>Email</h4>
+          <div style="color: #3b82f6">sven06726@gmail.com</div>
+          <small style="color: #94a3b8">Send me an email anytime</small>
+        </div>
+
+        <div class="contact-card">
+          <div class="icon">📞</div>
+          <h4>Phone</h4>
+          <div style="color: #3b82f6">+63 916 405 7077</div>
+          <small style="color: #94a3b8">Call during business hours</small>
+        </div>
+
+        <div class="contact-card">
+          <div class="icon">📍</div>
+          <h4>Location</h4>
+          <div style="color: #3b82f6">Philippines</div>
+          <small style="color: #94a3b8">Available for remote work</small>
+        </div>
+
+        <div class="contact-card">
+          <div class="icon">⏱️</div>
+          <h4>Response Time</h4>
+          <div style="color: #3b82f6">24 Hours</div>
+          <small style="color: #94a3b8">I'll get back to you quickly</small>
+        </div>
+      </div>
+
+      <div class="contact-layout">
+        <div class="contact-form-card">
+          <h3 style="margin-bottom: 14px">Send Message</h3>
+          <form id="contact-form">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px">
+              <div>
+                <label for="name">Full Name</label>
+                <input id="name" name="name" placeholder="Your name" required />
+              </div>
+              <div>
+                <label for="email">Email Address</label>
+                <input id="email" name="email" type="email" placeholder="your@email.com" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="subject">Subject</label>
+              <input id="subject" name="subject" placeholder="What's this about?" />
+            </div>
+
+            <div>
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Tell me about your project or idea..."
+                maxlength="500"
+              ></textarea>
+              <div style="font-size: 12px; color: #94a3b8; margin-bottom: 12px">Maximum 500 characters</div>
+            </div>
+
+            <button type="submit" class="btn primary" style="display: inline-flex; align-items: center; gap: 8px">
+              <span>✈️</span>
+              Send Message
+            </button>
+            <div id="contact-feedback" style="margin-top: 12px; display: none; color: #16a34a">
+              Message sent — thank you!
+            </div>
+          </form>
+        </div>
+
+        <aside class="contact-side">
+          <div class="info-box">
+            <h4>Why Work With Me?</h4>
+            <ul style="color: #475569; margin: 0; padding-left: 18px">
+              <li>Quick response within 24 hours</li>
+              <li>Dedicated to quality and innovation</li>
+              <li>Strong documentation skills</li>
+              <li>Leadership and teamwork experience</li>
+            </ul>
+          </div>
+
+          <div class="info-box">
+            <h4>Connect on Social</h4>
+            <div class="socials">
+              <a href="https://www.tiktok.com/@stvnnclrkk?_r=1&_t=ZS-91FgA0yzaoG" target="_blank" aria-label="tiktok">
+                <i class="fab fa-tiktok"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/stvnclrk_?igsh=MXMyb3cwd3FtYml6bQ=="
+                target="_blank"
+                aria-label="instagram"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://www.facebook.com/share/1Jmmqufh4h/" target="_blank" aria-label="facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://github.com/ven-code" target="_blank" aria-label="github">
+                <i class="fab fa-github"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="info-box contact-cta">
+            <h4>Available for Opportunities</h4>
+            <p style="margin: 0; color: rgba(255, 255, 255, 0.95)">
+              Currently seeking internship opportunities and collaborative projects to expand my experience.
+            </p>
+            <div style="margin-top: 10px; color: #dbeafe">● Available for new projects</div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <div class="logo">
+            <span class="logo-box">SC</span>
+            Steven Clarke
+          </div>
+          <p style="margin-top: 12px; color: #9aa6bb">
+            3rd Year BSIT Student and Documentation Committee Chairperson passionate about technology and innovation.
+          </p>
+          <div class="footer-socials" style="margin-top: 14px; display: flex; gap: 16px">
+            <a href="https://www.facebook.com/sven06726" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/stevenclarke_12/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@sven06726" target="_blank"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.github.com/sven06726" target="_blank"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-contact">
+          <h4>Get In Touch</h4>
+          <ul>
+            <li>sven06726@gmail.com</li>
+            <li>+63 916 405 7077</li>
+            <li>Philippines</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      $(document).ready(function () {
+        // Function to show section based on hash
+        function showSection(hash, shouldScroll = true) {
+          const section = hash.replace("#", "") || "home";
+          $(".nav-links a").removeClass("active");
+          $(`.nav-links a[data-section='${section}']`).addClass("active");
+          $("section").removeClass("active");
+          $("#" + section).addClass("active");
+
+          // Only scroll if explicitly requested
+          if (shouldScroll) {
+            window.scrollTo(0, 0);
+          }
+        }
+
+        // Initial load
+        showSection(window.location.hash);
+
+        // On hash change (back/forward buttons)
+        $(window).on("hashchange", function () {
+          showSection(window.location.hash);
+        });
+
+        // On nav click
+        $(".nav-links a, a.btn[data-section]").on("click", function (e) {
+          e.preventDefault();
+          const section = $(this).data("section");
+          if (section) {
+            window.location.hash = section;
+            // Close mobile menu
+            $(".nav-links").removeClass("show");
+            $(".hamburger").removeClass("active");
+            $(".mobile-overlay").removeClass("active");
+            $(".close-menu").hide();
+          }
+        });
+
+        // Mobile menu handlers
+        $(".hamburger").click(function () {
+          $(this).toggleClass("active");
+          $(".nav-links").toggleClass("show");
+          $(".mobile-overlay").toggleClass("active");
+          $(".close-menu").toggle();
+        });
+
+        // Close menu when clicking overlay
+        $(".mobile-overlay").click(function () {
+          $(".hamburger").removeClass("active");
+          $(".nav-links").removeClass("show");
+          $(this).removeClass("active");
+          $(".close-menu").hide();
+        });
+
+        // Close menu with close button
+        $(".close-menu").click(function () {
+          $(".hamburger").removeClass("active");
+          $(".nav-links").removeClass("show");
+          $(".mobile-overlay").removeClass("active");
+          $(this).hide();
+        });
+
+        // Contact form submit handler with email and SMS options
+        $("#contact-form").on("submit", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Prevent section change and scrolling
+          e.stopImmediatePropagation();
+
+          const $btn = $(this).find("button[type=submit]");
+          const name = $("#name").val().trim();
+          const email = $("#email").val().trim();
+          const subject = $("#subject").val().trim();
+          const message = $("#message").val().trim();
+
+          if (!name || !email || !message) {
+            alert("Please fill in all required fields.");
+            return;
+          }
+
+          const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRe.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+          }
+
+          // Start sending process
+          $btn.prop("disabled", true).text("Please wait...");
+
+          // Prepare message content
+          const mailBody = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+          const mailtoLink = `mailto:sven06726@gmail.com?subject=${encodeURIComponent(
+            subject || "Contact from Portfolio"
+          )}&body=${encodeURIComponent(mailBody)}`;
+          const smsLink = `sms:+639164057077?body=${encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+          )}`;
+
+          // Create contact options dialog
+          const contactDialog = document.createElement("div");
+          contactDialog.id = "contact-dialog";
+          contactDialog.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      z-index: 1001;
+      min-width: 300px;
+    `;
+
+          contactDialog.innerHTML = `
+      <h4 style="margin-bottom: 20px; color: #1e40af; font-size: 18px; text-align: center;">Choose Contact Method</h4>
+      <div style="display: flex; gap: 15px; flex-direction: column;">
+        <a href="${mailtoLink}" class="btn primary contact-option" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i class="fas fa-envelope"></i> Send via Email
+        </a>
+        <a href="${smsLink}" class="btn primary contact-option" style="text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i class="fas fa-comment"></i> Send via SMS
+        </a>
+        <button class="btn cancel-contact" style="background: #f3f4f6; color: #374151;">Cancel</button>
+      </div>
+    `;
+
+          // Create and add overlay
+          const overlay = document.createElement("div");
+          overlay.id = "contact-overlay";
+          overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+    `;
+
+          // Add to page
+          document.body.appendChild(overlay);
+          document.body.appendChild(contactDialog);
+
+          // Handle cancel button and overlay click
+          const hideDialog = () => {
+            contactDialog.remove();
+            overlay.remove();
+            $btn.prop("disabled", false).html("<span>✈️</span> Send Message");
+          };
+
+          overlay.onclick = hideDialog;
+          contactDialog.querySelector(".cancel-contact").onclick = hideDialog;
+
+          // Handle contact option clicks
+          contactDialog.querySelectorAll(".contact-option").forEach((link) => {
+            link.addEventListener("click", (evt) => {
+              evt.preventDefault();
+              const href = link.getAttribute("href");
+
+              // Show success message
+              const feedback = $("#contact-feedback");
+              feedback
+                .html(
+                  `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-check-circle"></i>
+            Message prepared - Opening ${href.startsWith("mailto") ? "email client" : "SMS app"}...
+          </div>
+        `
+                )
+                .css({
+                  position: "fixed",
+                  top: "20px",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  "z-index": "1002",
+                  background: "#16a34a",
+                  color: "white",
+                  padding: "12px 24px",
+                  "border-radius": "8px",
+                  "box-shadow": "0 2px 15px rgba(0,0,0,0.1)",
+                  "font-weight": "500",
+                })
+                .fadeIn();
+
+              // Reset form
+              $("#contact-form")[0].reset();
+
+              // Open contact method after a short delay
+              setTimeout(() => {
+                window.location.href = href;
+                hideDialog();
+
+                // Hide success message after a delay
+                setTimeout(() => {
+                  feedback.fadeOut(() => {
+                    feedback.css({
+                      position: "",
+                      top: "",
+                      left: "",
+                      transform: "",
+                      "z-index": "",
+                      background: "",
+                      color: "",
+                      padding: "",
+                      "border-radius": "",
+                      "box-shadow": "",
+                      "font-weight": "",
+                    });
+                  });
+                }, 3000);
+              }, 500);
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
