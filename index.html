@@ -177,6 +177,102 @@
         .close-menu:hover {
           color: #e0e7ff;
         }
+
+        /* Theme toggle button (mobile) */
+        /* theme-toggle (mobile-in-menu) removed; using floating mobile button instead */
+
+        /* Desktop toggle button styling */
+        .theme-toggle-desktop {
+          display: none; /* shown on larger screens via media query */
+          background: transparent;
+          border: 2px solid rgba(255, 255, 255, 0.12);
+          color: #fff;
+          padding: 8px 10px;
+          border-radius: 10px;
+          cursor: pointer;
+          font-size: 16px;
+          margin-left: 12px;
+        }
+
+        .theme-toggle-desktop i {
+          font-size: 16px;
+        }
+
+        /* Floating mobile theme button */
+        .theme-toggle-mobile {
+          display: none; /* visible on small screens */
+          position: fixed;
+          right: 18px;
+          bottom: 18px;
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          background: #1e40af;
+          color: #fff;
+          border: none;
+          box-shadow: 0 6px 18px rgba(2, 6, 23, 0.18);
+          z-index: 2000;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          font-size: 18px;
+        }
+
+        .theme-toggle-mobile:focus {
+          outline: none;
+        }
+
+        /* removed in-menu theme toggle; mobile toggle will be floating */
+      }
+
+      /* Dark mode overrides (simple, compatible) */
+      body.dark-mode {
+        background: #071024;
+        color: #dbeafe;
+      }
+
+      body.dark-mode .navbar {
+        background: #0b1220;
+      }
+
+      body.dark-mode .logo {
+        color: #e6f0ff;
+      }
+
+      body.dark-mode .logo-box {
+        background: #e6f0ff;
+        color: #0b1220;
+      }
+
+      body.dark-mode .nav-links a,
+      body.dark-mode .footer-links a {
+        color: #cfe3ff;
+      }
+
+      body.dark-mode .about-card,
+      body.dark-mode .milestones-card,
+      body.dark-mode .milestones-side-card,
+      body.dark-mode .project-card,
+      body.dark-mode .contact-card,
+      body.dark-mode .contact-form-card,
+      body.dark-mode .info-box,
+      body.dark-mode .skill-category,
+      body.dark-mode .soft-skill-card {
+        background: #071a2a;
+        color: #dbeafe;
+        box-shadow: none;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      body.dark-mode .site-footer {
+        background: #041022;
+        color: #9fb7d6;
+      }
+
+      body.dark-mode .btn.primary {
+        background: #3b82f6;
+        color: #fff;
       }
 
       /* Section Layout */
@@ -836,6 +932,26 @@
         }
       }
 
+      /* Show desktop toggle on larger screens */
+      @media (min-width: 769px) {
+        .theme-toggle-desktop {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+        /* hide floating mobile button on larger screens */
+        .theme-toggle-mobile {
+          display: none;
+        }
+      }
+
+      @media (max-width: 768px) {
+        /* show floating button on small screens */
+        .theme-toggle-mobile {
+          display: inline-flex;
+        }
+      }
+
       /* Footer social icons style */
       .footer-socials a {
         color: #94a3b8;
@@ -1151,6 +1267,10 @@
           <span></span>
           <span></span>
         </div>
+        <!-- Desktop theme toggle (visible on larger screens) -->
+        <button class="theme-toggle-desktop" aria-label="Toggle theme" title="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
       </nav>
     </header>
 
@@ -1742,6 +1862,11 @@
       </div>
     </footer>
 
+    <!-- Floating mobile theme toggle -->
+    <button class="theme-toggle-mobile" aria-label="Toggle theme" title="Toggle theme">
+      <i class="fas fa-moon"></i>
+    </button>
+
     <script>
       $(document).ready(function () {
         // Function to show section based on hash
@@ -1958,6 +2083,54 @@
                 }, 3000);
               }, 500);
             });
+          });
+
+          // Theme toggle: persist in localStorage and initialize from preference
+          const THEME_KEY = "site-theme";
+
+          function syncToggles() {
+            const isDark = $("body").hasClass("dark-mode");
+            const $mobile = $(".theme-toggle-mobile");
+            const $desktop = $(".theme-toggle-desktop");
+            if ($mobile.length) {
+              $mobile.html(isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>');
+              $mobile.attr("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+            }
+            if ($desktop.length) {
+              $desktop.html(isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>');
+              $desktop.attr("title", isDark ? "Switch to light mode" : "Switch to dark mode");
+            }
+          }
+
+          function applyTheme(theme) {
+            if (theme === "dark") {
+              $("body").addClass("dark-mode");
+            } else {
+              $("body").removeClass("dark-mode");
+            }
+            localStorage.setItem(THEME_KEY, theme);
+            syncToggles();
+          }
+
+          // Initialize theme from localStorage or prefers-color-scheme
+          (function initTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved) {
+              applyTheme(saved);
+              return;
+            }
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              applyTheme("dark");
+            } else {
+              applyTheme("light");
+            }
+          })();
+
+          // Toggle handler for both mobile and desktop toggles
+          $(document).on("click", ".theme-toggle-mobile, .theme-toggle-desktop", function (e) {
+            e.preventDefault();
+            const isDark = $("body").hasClass("dark-mode");
+            applyTheme(isDark ? "light" : "dark");
           });
         });
       });
