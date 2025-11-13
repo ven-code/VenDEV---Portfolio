@@ -128,6 +128,42 @@
         opacity: 1;
       }
 
+      /* Floating theme toggle (shared on mobile & desktop) - global styles */
+      .theme-toggle-floating {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #1e40af; /* blue circle */
+        color: #fff;
+        border: none;
+        box-shadow: 0 8px 24px rgba(2, 6, 23, 0.18);
+        z-index: 2000;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      }
+
+      .theme-toggle-floating:focus {
+        outline: none;
+        box-shadow: 0 10px 30px rgba(2, 6, 23, 0.25);
+      }
+
+      .theme-toggle-floating:hover {
+        transform: translateY(-4px);
+      }
+
+      /* ensure icon inside button is white and sized nicely */
+      .theme-toggle-floating i {
+        color: #fff;
+        font-size: 18px;
+      }
+
       /* Mobile Menu */
       @media (max-width: 768px) {
         .hamburger {
@@ -181,49 +217,7 @@
         /* Theme toggle button (mobile) */
         /* theme-toggle (mobile-in-menu) removed; using floating mobile button instead */
 
-        /* Desktop toggle button styling */
-        .theme-toggle-desktop {
-          display: none; /* shown on larger screens via media query */
-          background: transparent;
-          border: 2px solid rgba(255, 255, 255, 0.12);
-          color: #fff;
-          padding: 8px 10px;
-          border-radius: 10px;
-          cursor: pointer;
-          font-size: 16px;
-          margin-left: 12px;
-        }
-
-        .theme-toggle-desktop i {
-          font-size: 16px;
-        }
-
-        /* Floating mobile theme button */
-        .theme-toggle-mobile {
-          display: none; /* visible on small screens */
-          position: fixed;
-          right: 18px;
-          bottom: 18px;
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: #1e40af;
-          color: #fff;
-          border: none;
-          box-shadow: 0 6px 18px rgba(2, 6, 23, 0.18);
-          z-index: 2000;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          font-size: 18px;
-        }
-
-        .theme-toggle-mobile:focus {
-          outline: none;
-        }
-
-        /* removed in-menu theme toggle; mobile toggle will be floating */
+        /* (mobile-specific layout rules live here) */
       }
 
       /* Dark mode overrides (simple, compatible) */
@@ -233,7 +227,8 @@
       }
 
       body.dark-mode .navbar {
-        background: #0b1220;
+        /* softer navy instead of totally black for a friendlier dark header */
+        background: #092e56;
       }
 
       body.dark-mode .logo {
@@ -266,8 +261,9 @@
       }
 
       body.dark-mode .site-footer {
-        background: #041022;
-        color: #9fb7d6;
+        /* softer blue-gray footer to match header and keep contrast */
+        background: #082433;
+        color: #a8c0d9;
       }
 
       body.dark-mode .btn.primary {
@@ -417,11 +413,13 @@
       .about-header h2 {
         font-size: 36px;
         font-weight: 700;
-        color: #1e40af;
+        /* match Projects header: main text black */
+        color: #000;
       }
 
       .about-header h2 span {
-        color: #000;
+        /* match Projects header: accent blue */
+        color: #3b82f6;
       }
 
       .about-header p {
@@ -692,13 +690,13 @@
         font-size: 36px;
         font-weight: 700;
         margin-bottom: 15px;
-        /* Match About section's heading: blue main text */
-        color: #1e40af;
+        /* match Projects header: main text black */
+        color: #000;
       }
 
       .skills-header h2 span {
-        /* Make the span black like the About section span */
-        color: #000;
+        /* match Projects header: accent blue */
+        color: #3b82f6;
       }
 
       /* Subtitle for sections within the Skills area (plain black H3) */
@@ -932,25 +930,7 @@
         }
       }
 
-      /* Show desktop toggle on larger screens */
-      @media (min-width: 769px) {
-        .theme-toggle-desktop {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-        /* hide floating mobile button on larger screens */
-        .theme-toggle-mobile {
-          display: none;
-        }
-      }
-
-      @media (max-width: 768px) {
-        /* show floating button on small screens */
-        .theme-toggle-mobile {
-          display: inline-flex;
-        }
-      }
+      /* floating toggle is styled globally above */
 
       /* Footer social icons style */
       .footer-socials a {
@@ -1239,6 +1219,94 @@
         }
       }
     </style>
+
+    <!-- Dark mode final overrides (moved into head so styles reliably load) -->
+    <style id="dark-mode-overrides">
+      body.dark-mode,
+      body.dark-mode section,
+      body.dark-mode .hero,
+      body.dark-mode #about,
+      body.dark-mode #skills,
+      body.dark-mode #projects,
+      body.dark-mode #contact {
+        background: #071024 !important;
+        color: #dbeafe !important;
+      }
+
+      body.dark-mode .about-card,
+      body.dark-mode .milestones-card,
+      body.dark-mode .milestones-side-card,
+      body.dark-mode .project-card,
+      body.dark-mode .contact-card,
+      body.dark-mode .contact-form-card,
+      body.dark-mode .info-box,
+      body.dark-mode .skill-category,
+      body.dark-mode .soft-skill-card {
+        background: #071a2a !important;
+        color: #dbeafe !important;
+        box-shadow: none !important;
+        border: 1px solid rgba(255, 255, 255, 0.03) !important;
+      }
+
+      body.dark-mode .site-footer {
+        /* softer blue-gray footer to match header and keep contrast */
+        background: #082433 !important;
+        color: #a8c0d9 !important;
+      }
+
+      body.dark-mode .navbar {
+        /* softer navy instead of totally black for a friendlier dark header */
+        background: #092e56 !important;
+      }
+      body.dark-mode .logo {
+        color: #e6f0ff !important;
+      }
+      body.dark-mode .logo-box {
+        background: #e6f0ff !important;
+        color: #0b1220 !important;
+      }
+
+      body.dark-mode .btn.primary {
+        background: #3b82f6 !important;
+        color: #fff !important;
+      }
+
+      /* Make headings and body text consistently readable in dark mode */
+      body.dark-mode h1,
+      body.dark-mode h2,
+      body.dark-mode h3,
+      body.dark-mode h4,
+      body.dark-mode h5,
+      body.dark-mode h6 {
+        color: #e6f0ff !important;
+      }
+
+      body.dark-mode p,
+      body.dark-mode li,
+      body.dark-mode .nav-links a,
+      body.dark-mode .footer-links a,
+      body.dark-mode .hero-content p,
+      body.dark-mode .about-header p,
+      body.dark-mode .project-content p,
+      body.dark-mode .contact-form-card label {
+        color: #cfe3ff !important;
+      }
+
+      /* Keep floating toggle blue with white icon in dark mode as well */
+      body.dark-mode .theme-toggle-floating {
+        background: #1e40af !important;
+        color: #ffffff !important;
+      }
+
+      /* Smooth transition */
+      body,
+      .about-card,
+      .project-card,
+      .contact-card,
+      .skill-category {
+        transition: background 200ms ease, color 200ms ease;
+      }
+    </style>
   </head>
 
   <body>
@@ -1267,10 +1335,7 @@
           <span></span>
           <span></span>
         </div>
-        <!-- Desktop theme toggle (visible on larger screens) -->
-        <button class="theme-toggle-desktop" aria-label="Toggle theme" title="Toggle theme">
-          <i class="fas fa-moon"></i>
-        </button>
+        <!-- theme toggle removed from navbar; floating toggle used instead -->
       </nav>
     </header>
 
@@ -1709,6 +1774,14 @@
 
     <!-- Contact Section -->
     <section id="contact">
+      <div class="contact-header projects-header">
+        <h2>
+          Contact
+          <span>Me</span>
+        </h2>
+        <p>Get in touch — I’m available for internships, projects, and collaborations.</p>
+      </div>
+
       <div class="contact-top-cards">
         <div class="contact-card">
           <div class="icon">✉️</div>
@@ -1862,13 +1935,14 @@
       </div>
     </footer>
 
-    <!-- Floating mobile theme toggle -->
-    <button class="theme-toggle-mobile" aria-label="Toggle theme" title="Toggle theme">
+    <!-- Floating theme toggle (shared on mobile & desktop) -->
+    <button type="button" class="theme-toggle-floating" aria-label="Toggle theme" title="Toggle theme">
       <i class="fas fa-moon"></i>
     </button>
 
     <script>
       $(document).ready(function () {
+        console.log("document.ready: main script loaded");
         // Function to show section based on hash
         function showSection(hash, shouldScroll = true) {
           const section = hash.replace("#", "") || "home";
@@ -2085,54 +2159,91 @@
             });
           });
 
-          // Theme toggle: persist in localStorage and initialize from preference
+          // End contact form submit handler
+        });
+
+        // Theme toggle: robust implementation with keyboard support and clear icon updates
+        (function () {
           const THEME_KEY = "site-theme";
+          const $toggle = $(".theme-toggle-floating");
+          console.log("theme module init, toggle length:", $toggle.length);
 
-          function syncToggles() {
-            const isDark = $("body").hasClass("dark-mode");
-            const $mobile = $(".theme-toggle-mobile");
-            const $desktop = $(".theme-toggle-desktop");
-            if ($mobile.length) {
-              $mobile.html(isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>');
-              $mobile.attr("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
-            }
-            if ($desktop.length) {
-              $desktop.html(isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>');
-              $desktop.attr("title", isDark ? "Switch to light mode" : "Switch to dark mode");
-            }
-          }
-
-          function applyTheme(theme) {
-            if (theme === "dark") {
-              $("body").addClass("dark-mode");
+          function updateButton(theme) {
+            if (!$toggle.length) return;
+            const $icon = $toggle.find("i");
+            if ($icon.length) {
+              $icon.removeClass("fa-moon fa-sun");
+              $icon.addClass(theme === "dark" ? "fa-sun" : "fa-moon");
             } else {
-              $("body").removeClass("dark-mode");
+              $toggle.html(theme === "dark" ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>');
             }
-            localStorage.setItem(THEME_KEY, theme);
-            syncToggles();
+            // Debug: confirm button update
+            console.log("updateButton(): set icon for", theme);
+            $toggle.attr("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+            $toggle.attr("title", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
           }
 
-          // Initialize theme from localStorage or prefers-color-scheme
-          (function initTheme() {
+          function setTheme(theme) {
+            try {
+              console.log("setTheme():", theme);
+              if (theme === "dark") {
+                $("body").addClass("dark-mode");
+              } else {
+                $("body").removeClass("dark-mode");
+              }
+              localStorage.setItem(THEME_KEY, theme);
+              updateButton(theme);
+            } catch (err) {
+              // if localStorage is blocked, still update UI
+              console.warn("Theme set failed to persist:", err);
+              if (theme === "dark") $("body").addClass("dark-mode");
+              else $("body").removeClass("dark-mode");
+              updateButton(theme);
+            }
+          }
+
+          // Initialize theme
+          try {
             const saved = localStorage.getItem(THEME_KEY);
-            if (saved) {
-              applyTheme(saved);
-              return;
-            }
-            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-              applyTheme("dark");
+            if (saved === "dark" || saved === "light") {
+              setTheme(saved);
+            } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              setTheme("dark");
             } else {
-              applyTheme("light");
+              setTheme("light");
             }
-          })();
+          } catch (err) {
+            // fallback if localStorage access fails
+            console.warn("Could not read theme from storage:", err);
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) setTheme("dark");
+            else setTheme("light");
+          }
 
-          // Toggle handler for both mobile and desktop toggles
-          $(document).on("click", ".theme-toggle-mobile, .theme-toggle-desktop", function (e) {
+          // Click handler
+          // Use delegated handler so it fires even if the button is re-rendered later
+          $(document).on("click", ".theme-toggle-floating", function (e) {
             e.preventDefault();
             const isDark = $("body").hasClass("dark-mode");
-            applyTheme(isDark ? "light" : "dark");
+            const newTheme = isDark ? "light" : "dark";
+            console.log("theme toggle clicked (delegated), switching to", newTheme);
+            setTheme(newTheme);
           });
-        });
+
+          // Expose setTheme for manual testing from console
+          window.setSiteTheme = setTheme;
+
+          // Note: removed native click fallback because it duplicated the delegated handler
+          // (both were firing and causing the theme to toggle twice). The delegated
+          // handler on document is sufficient in normal pages where jQuery is present.
+
+          // Keyboard accessibility (Enter / Space)
+          $toggle.on("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              $(this).trigger("click");
+            }
+          });
+        })();
       });
     </script>
   </body>
