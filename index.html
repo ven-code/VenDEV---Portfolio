@@ -109,6 +109,14 @@
         transform: rotate(-45deg) translate(5px, -5px);
       }
 
+      /* Hide hamburger icon when menu is active on mobile */
+      @media (max-width: 768px) {
+        .hamburger.active {
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+
       /* Mobile Menu Overlay */
       .mobile-overlay {
         display: none;
