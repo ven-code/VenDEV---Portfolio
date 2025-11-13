@@ -197,23 +197,6 @@
           color: #fff;
         }
 
-        /* Close Button */
-        .close-menu {
-          position: absolute;
-          top: 20px;
-          right: 20px;
-          background: none;
-          border: none;
-          color: #fff;
-          font-size: 30px;
-          cursor: pointer;
-          transition: 0.3s;
-        }
-
-        .close-menu:hover {
-          color: #e0e7ff;
-        }
-
         /* Theme toggle button (mobile) */
         /* theme-toggle (mobile-in-menu) removed; using floating mobile button instead */
 
@@ -1329,8 +1312,6 @@
           <li><a data-section="contact">Contact</a></li>
         </ul>
 
-        <button class="close-menu" style="display: none">&times;</button>
-
         <div class="hamburger">
           <span></span>
           <span></span>
@@ -1982,16 +1963,9 @@
 
         // Mobile menu handlers
         $(".hamburger").click(function () {
-          const isActive = $(this).hasClass("active");
           $(this).toggleClass("active");
           $(".nav-links").toggleClass("show");
           $(".mobile-overlay").toggleClass("active");
-          // Show close button if menu is now open, hide if now closed
-          if (isActive) {
-            $(".close-menu").hide();
-          } else {
-            $(".close-menu").show();
-          }
         });
 
         // Close menu when clicking overlay
@@ -1999,15 +1973,6 @@
           $(".hamburger").removeClass("active");
           $(".nav-links").removeClass("show");
           $(this).removeClass("active");
-          $(".close-menu").hide();
-        });
-
-        // Close menu with close button
-        $(".close-menu").click(function () {
-          $(".hamburger").removeClass("active");
-          $(".nav-links").removeClass("show");
-          $(".mobile-overlay").removeClass("active");
-          $(this).hide();
         });
 
         // Contact form submit handler with email and SMS options
