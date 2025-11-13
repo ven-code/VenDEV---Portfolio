@@ -1327,8 +1327,9 @@
           <li><a data-section="skills">Skills</a></li>
           <li><a data-section="projects">Projects</a></li>
           <li><a data-section="contact">Contact</a></li>
-          <button class="close-menu" style="display: none">&times;</button>
         </ul>
+
+        <button class="close-menu" style="display: none">&times;</button>
 
         <div class="hamburger">
           <span></span>
@@ -1981,10 +1982,16 @@
 
         // Mobile menu handlers
         $(".hamburger").click(function () {
+          const isActive = $(this).hasClass("active");
           $(this).toggleClass("active");
           $(".nav-links").toggleClass("show");
           $(".mobile-overlay").toggleClass("active");
-          $(".close-menu").toggle();
+          // Show close button if menu is now open, hide if now closed
+          if (isActive) {
+            $(".close-menu").hide();
+          } else {
+            $(".close-menu").show();
+          }
         });
 
         // Close menu when clicking overlay
